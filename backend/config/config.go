@@ -18,6 +18,7 @@ type Config struct {
 	JWTExpiryHours int
 
 	Port string
+	Host string
 
 	AdminUsername string
 	AdminPassword string
@@ -50,6 +51,7 @@ func Load() *Config {
 		JWTExpiryHours: expiryHours,
 
 		Port: getEnv("PORT", "8080"),
+		Host: getEnv("HOST", "localhost"),
 
 		AdminUsername: getEnv("ADMIN_USERNAME", "admin"),
 		AdminPassword: getEnv("ADMIN_PASSWORD", "admin123"),

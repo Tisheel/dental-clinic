@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./backend
+    container_name: backend
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASSWORD=secret
+      - DB_NAME=mydb
+      - HOST=0.0.0.0
+      - PORT=8080
+      - JWT_SECRET=change-this-to-a-32-char-minimum-secret
+      - JWT_EXPIRY_HOURS=24
+      - ADMIN_USERNAME=admin
+      - ADMIN_PASSWORD=admin123
+      - FRONTEND_URL=http://localhost:80
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    restart: always
+
+  nginx:
+    image: nginx:alpine
+    container_name: proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - frontend
+      - backend
+    restart: always
+
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: mydb
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:

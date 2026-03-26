@@ -131,7 +131,7 @@ func main() {
 	})
 
 	log.Printf("Server starting on port %s", cfg.Port)
-	log.Fatal(http.ListenAndServe("0.0.0.0:"+cfg.Port, r))
+	log.Fatal(http.ListenAndServe(cfg.Host+":"+cfg.Port, r))
 }
 
 func seedNotificationConfig(store *store.NotificationConfigStore, cfg *config.Config) {

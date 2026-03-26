@@ -1,0 +1,23 @@
+name: Prod Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to VM
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.VM_SECRET_KEY }}
+          script: |
+            cd /home/${{ secrets.VM_USER }}/app || exit
+            git pull origin main
+            chmod +x deploy.sh
+            ./deploy.sh

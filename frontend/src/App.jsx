@@ -25,6 +25,8 @@ const InvoiceView = lazy(() => import('./pages/admin/InvoiceView'));
 const NotificationSettings = lazy(() => import('./pages/admin/NotificationSettings'));
 const BlogAdmin = lazy(() => import('./pages/admin/BlogAdmin'));
 const Analytics = lazy(() => import('./pages/admin/Analytics'));
+const Campaigns = lazy(() => import('./pages/admin/Campaigns'));
+const CampaignForm = lazy(() => import('./pages/admin/CampaignForm'));
 
 function Loading() {
   return (
@@ -61,6 +63,9 @@ function App() {
             <Route path="/admin/analytics" element={<ProtectedRoute><AdminLayout><Analytics /></AdminLayout></ProtectedRoute>} />
             <Route path="/admin/blog" element={<ProtectedRoute><AdminLayout><BlogAdmin /></AdminLayout></ProtectedRoute>} />
             <Route path="/admin/settings" element={<ProtectedRoute><AdminLayout><NotificationSettings /></AdminLayout></ProtectedRoute>} />
+            <Route path="/admin/campaigns" element={<ProtectedRoute><AdminLayout><Campaigns /></AdminLayout></ProtectedRoute>} />
+            <Route path="/admin/campaigns/new" element={<ProtectedRoute><AdminLayout><CampaignForm /></AdminLayout></ProtectedRoute>} />
+            <Route path="/admin/campaigns/:id" element={<ProtectedRoute><AdminLayout><CampaignForm /></AdminLayout></ProtectedRoute>} />
           </Routes>
         </Suspense>
       </AuthProvider>

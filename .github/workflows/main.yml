@@ -6,34 +6,76 @@ on:
       - main
 
 jobs:
-  deploy:
+  changes:
     runs-on: ubuntu-latest
-
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      cron: ${{ steps.filter.outputs.cron }}
+      frontend: ${{ steps.filter.outputs.frontend }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            backend:
+              - 'backend/**'
+            cron:
+              - 'cron/**'
+            frontend:
+              - 'frontend/**'
 
-      # 🔐 Login to Docker Hub
-      - name: Login to Docker
-        uses: docker/login-action@v3
+  build-backend:
+    needs: changes
+    if: needs.changes.outputs.backend == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
-      # 🏗 Build & push backend
-      - name: Build backend
+      - name: Build & push backend
         run: |
           docker build -t tisheel/backend:latest ./backend
           docker push tisheel/backend:latest
 
-      # 🏗 Build & push frontend
-      - name: Build frontend
+  build-cron:
+    needs: changes
+    if: needs.changes.outputs.cron == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build & push cron
+        run: |
+          docker build -t tisheel/cron:latest ./cron
+          docker push tisheel/cron:latest
+
+  build-frontend:
+    needs: changes
+    if: needs.changes.outputs.frontend == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build & push frontend
         run: |
           docker build -t tisheel/frontend:latest ./frontend
           docker push tisheel/frontend:latest
 
-      # 🚀 Deploy to VM
-      - name: Deploy
+  deploy:
+    needs: [build-backend, build-cron, build-frontend]
+    if: always() && !failure() && !cancelled()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to VM
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VM_HOST }}

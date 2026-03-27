@@ -23,6 +23,17 @@ services:
     image: tisheel/frontend:latest
     restart: always
 
+  cron:
+    image: tisheel/cron:latest
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASSWORD=secret
+      - DB_NAME=mydb
+
   nginx:
     image: nginx:alpine
     container_name: proxy

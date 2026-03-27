@@ -84,6 +84,6 @@ jobs:
           script: |
             cd /home/${{ secrets.VM_USER }}/app
 
-            docker compose up -d --pull always backend frontend
+            docker-compose up -d --pull always backend frontend cron
 
             docker image prune -f

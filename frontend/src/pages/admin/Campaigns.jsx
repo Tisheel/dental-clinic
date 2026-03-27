@@ -61,18 +61,18 @@ export default function Campaigns() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Campaigns</h1>
-          <p className="text-sm text-gray-500 mt-1">Send email and WhatsApp campaigns to your patients</p>
+          <p className="text-sm text-gray-500 mt-1 hidden sm:block">Send email and WhatsApp campaigns to your patients</p>
         </div>
         <Link
           to="/admin/campaigns/new"
-          className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
+          className="flex items-center gap-2 bg-blue-600 text-white px-3 sm:px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
         >
-          <Plus size={16} /> New Campaign
+          <Plus size={16} /> <span className="hidden sm:inline">New Campaign</span><span className="sm:hidden">New</span>
         </Link>
       </div>
 
       {campaigns.length === 0 ? (
-        <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
+        <div className="bg-white rounded-xl border border-gray-200 p-8 sm:p-12 text-center">
           <div className="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center mx-auto mb-4">
             <Megaphone size={28} className="text-blue-600" />
           </div>
@@ -87,7 +87,6 @@ export default function Campaigns() {
         </div>
       ) : (
         <>
-          {/* Filter */}
           <div className="mb-4">
             <select value={filter} onChange={(e) => setFilter(e.target.value)}
               className="border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
@@ -108,80 +107,136 @@ export default function Campaigns() {
               </button>
             </div>
           ) : (
-            <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-gray-100 bg-gray-50/50">
-                    <th className="text-left text-xs font-medium text-gray-500 uppercase px-5 py-3">Campaign</th>
-                    <th className="text-left text-xs font-medium text-gray-500 uppercase px-5 py-3">Channel</th>
-                    <th className="text-left text-xs font-medium text-gray-500 uppercase px-5 py-3">Status</th>
-                    <th className="text-left text-xs font-medium text-gray-500 uppercase px-5 py-3">Scheduled</th>
-                    <th className="text-left text-xs font-medium text-gray-500 uppercase px-5 py-3">Recipients</th>
-                    <th className="text-right text-xs font-medium text-gray-500 uppercase px-5 py-3">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filtered.map((c) => {
-                    const status = statusConfig[c.status] || statusConfig.draft;
-                    const StatusIcon = status.icon;
-                    return (
-                      <tr key={c.id} className="border-b border-gray-50 hover:bg-gray-50/50">
-                        <td className="px-5 py-4">
-                          <Link to={`/admin/campaigns/${c.id}`} className="font-medium text-gray-900 hover:text-blue-600">
-                            {c.name}
-                          </Link>
-                        </td>
-                        <td className="px-5 py-4 text-sm text-gray-600">{channelLabels[c.channel] || c.channel}</td>
-                        <td className="px-5 py-4">
-                          <span className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${status.color}`}>
-                            <StatusIcon size={12} /> {status.label}
-                          </span>
-                        </td>
-                        <td className="px-5 py-4 text-sm text-gray-600">
-                          {c.scheduledAt ? new Date(c.scheduledAt).toLocaleString() : '-'}
-                        </td>
-                        <td className="px-5 py-4 text-sm">
-                          {(c.totalRecipients || 0) > 0 ? (
-                            <div className="flex items-center gap-3">
-                              <span className="font-medium text-green-700">{c.sentRecipients || 0}<span className="text-gray-400 font-normal">/{c.totalRecipients}</span></span>
-                              {c.skippedRecipients > 0 && (
-                                <span className="text-xs text-amber-500">{c.skippedRecipients} skipped</span>
+            <>
+              {/* Desktop table */}
+              <div className="hidden md:block bg-white rounded-xl border border-gray-200 overflow-hidden">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b border-gray-100 bg-gray-50/50">
+                      <th className="text-left text-xs font-medium text-gray-500 uppercase px-5 py-3">Campaign</th>
+                      <th className="text-left text-xs font-medium text-gray-500 uppercase px-5 py-3">Channel</th>
+                      <th className="text-left text-xs font-medium text-gray-500 uppercase px-5 py-3">Status</th>
+                      <th className="text-left text-xs font-medium text-gray-500 uppercase px-5 py-3">Scheduled</th>
+                      <th className="text-left text-xs font-medium text-gray-500 uppercase px-5 py-3">Recipients</th>
+                      <th className="text-right text-xs font-medium text-gray-500 uppercase px-5 py-3">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filtered.map((c) => {
+                      const status = statusConfig[c.status] || statusConfig.draft;
+                      const StatusIcon = status.icon;
+                      return (
+                        <tr key={c.id} className="border-b border-gray-50 hover:bg-gray-50/50">
+                          <td className="px-5 py-4">
+                            <Link to={`/admin/campaigns/${c.id}`} className="font-medium text-gray-900 hover:text-blue-600">
+                              {c.name}
+                            </Link>
+                          </td>
+                          <td className="px-5 py-4 text-sm text-gray-600">{channelLabels[c.channel] || c.channel}</td>
+                          <td className="px-5 py-4">
+                            <span className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${status.color}`}>
+                              <StatusIcon size={12} /> {status.label}
+                            </span>
+                          </td>
+                          <td className="px-5 py-4 text-sm text-gray-600">
+                            {c.scheduledAt ? new Date(c.scheduledAt).toLocaleString() : '-'}
+                          </td>
+                          <td className="px-5 py-4 text-sm">
+                            {(c.totalRecipients || 0) > 0 ? (
+                              <div className="flex items-center gap-3">
+                                <span className="font-medium text-green-700">{c.sentRecipients || 0}<span className="text-gray-400 font-normal">/{c.totalRecipients}</span></span>
+                                {c.skippedRecipients > 0 && (
+                                  <span className="text-xs text-amber-500">{c.skippedRecipients} skipped</span>
+                                )}
+                                {c.failedRecipients > 0 && (
+                                  <span className="text-xs text-red-500">{c.failedRecipients} failed</span>
+                                )}
+                              </div>
+                            ) : (
+                              <span className="text-gray-400">-</span>
+                            )}
+                          </td>
+                          <td className="px-5 py-4">
+                            <div className="flex items-center justify-end gap-1">
+                              <Link to={`/admin/campaigns/${c.id}`}
+                                className="p-2 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-gray-700">
+                                <Eye size={16} />
+                              </Link>
+                              {c.status === 'draft' && (
+                                <button onClick={() => handleSchedule(c.id)}
+                                  className="p-2 rounded-lg hover:bg-blue-50 text-blue-600 hover:text-blue-700"
+                                  title="Schedule">
+                                  <Send size={16} />
+                                </button>
                               )}
-                              {c.failedRecipients > 0 && (
-                                <span className="text-xs text-red-500">{c.failedRecipients} failed</span>
+                              {c.status !== 'running' && (
+                                <button onClick={() => handleDelete(c.id, c.name)}
+                                  className="p-2 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-600">
+                                  <Trash2 size={16} />
+                                </button>
                               )}
                             </div>
-                          ) : (
-                            <span className="text-gray-400">-</span>
-                          )}
-                        </td>
-                        <td className="px-5 py-4">
-                          <div className="flex items-center justify-end gap-1">
-                            <Link to={`/admin/campaigns/${c.id}`}
-                              className="p-2 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-gray-700">
-                              <Eye size={16} />
-                            </Link>
-                            {c.status === 'draft' && (
-                              <button onClick={() => handleSchedule(c.id)}
-                                className="p-2 rounded-lg hover:bg-blue-50 text-blue-600 hover:text-blue-700"
-                                title="Schedule">
-                                <Send size={16} />
-                              </button>
-                            )}
-                            {c.status !== 'running' && (
-                              <button onClick={() => handleDelete(c.id, c.name)}
-                                className="p-2 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-600">
-                                <Trash2 size={16} />
-                              </button>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Mobile cards */}
+              <div className="md:hidden space-y-3">
+                {filtered.map((c) => {
+                  const status = statusConfig[c.status] || statusConfig.draft;
+                  const StatusIcon = status.icon;
+                  const total = c.totalRecipients || 0;
+                  return (
+                    <div key={c.id} className="bg-white rounded-xl border border-gray-200 p-4">
+                      <div className="flex items-start justify-between gap-2 mb-2">
+                        <Link to={`/admin/campaigns/${c.id}`} className="font-medium text-gray-900 hover:text-blue-600 text-sm">
+                          {c.name}
+                        </Link>
+                        <span className={`shrink-0 inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full ${status.color}`}>
+                          <StatusIcon size={11} /> {status.label}
+                        </span>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 mb-3">
+                        <span>{channelLabels[c.channel] || c.channel}</span>
+                        {c.scheduledAt && <span>{new Date(c.scheduledAt).toLocaleDateString()}</span>}
+                        {total > 0 && (
+                          <span>
+                            <span className="font-medium text-green-700">{c.sentRecipients || 0}</span>
+                            <span className="text-gray-400">/{total}</span>
+                            {c.skippedRecipients > 0 && <span className="text-amber-500 ml-1">{c.skippedRecipients} skipped</span>}
+                            {c.failedRecipients > 0 && <span className="text-red-500 ml-1">{c.failedRecipients} failed</span>}
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="flex items-center gap-1 pt-2 border-t border-gray-100">
+                        <Link to={`/admin/campaigns/${c.id}`}
+                          className="p-2 rounded-lg hover:bg-gray-100 text-gray-500">
+                          <Eye size={15} />
+                        </Link>
+                        {c.status === 'draft' && (
+                          <button onClick={() => handleSchedule(c.id)}
+                            className="p-2 rounded-lg hover:bg-blue-50 text-blue-600" title="Schedule">
+                            <Send size={15} />
+                          </button>
+                        )}
+                        {c.status !== 'running' && (
+                          <button onClick={() => handleDelete(c.id, c.name)}
+                            className="p-2 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-600">
+                            <Trash2 size={15} />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
           )}
         </>
       )}

@@ -57,23 +57,23 @@ const testimonials = [
 const leftFaqs = [
   {
     q: 'How often should I visit the dentist?',
-    a: 'It is recommended to visit a dentist every 6 months for a routine dental check-up and professional teeth cleaning. Regular dental visits help detect cavities, gum disease, and other oral health issues early for effective treatment.',
+    a: 'Dentists recommend a professional dental check-up and cleaning every 6 months for most patients. If you have specific conditions like gum disease or a history of cavities, more frequent visits may be advised. Regular check-ups at Big Smile Dental Care help detect issues early and prevent costly treatments.',
   },
   {
-    q: 'How often should I brush my teeth?',
-    a: 'You should brush your teeth twice a day using fluoride toothpaste, once in the morning and once before bed. Proper brushing helps prevent plaque buildup, tooth decay, and gum disease, ensuring good oral hygiene.',
+    q: 'What dental services does Big Smile Dental Care in Banashankari offer?',
+    a: 'We offer a full range of dental services including teeth cleaning, root canal treatment, dental implants, teeth whitening, tooth extraction, cosmetic dentistry, dental braces, clear aligners, and dental fillings. We are located at SV Plaza, 80 Feet Main Road, Srinivasnagar.',
   },
   {
-    q: 'Are dental X-rays safe?',
-    a: 'Yes, dental X-rays are safe as they use very low levels of radiation. Modern digital dental X-rays further minimize exposure and help dentists accurately diagnose cavities, infections, and underlying oral health problems.',
+    q: 'Are braces or clear aligners better for teeth straightening?',
+    a: 'The right choice depends on your specific dental condition. Traditional braces are more effective for complex misalignment and bite correction, while clear aligners are a discreet and comfortable option for mild to moderate cases. Our orthodontist at Big Smile Dental Care will assess your teeth and recommend the most clinically appropriate treatment during your consultation.',
   },
   {
     q: 'When should I take my child to the dentist for the first time?',
     a: 'It is recommended to take your child to the dentist by their first birthday or when the first tooth appears. Early dental visits help prevent cavities and establish healthy oral care habits from a young age.',
   },
   {
-    q: 'How can I maintain good oral hygiene at home?',
-    a: 'Maintaining good oral hygiene includes brushing twice daily, flossing regularly, using mouthwash, and following a healthy diet. For a complete guide, read our detailed blog on maintaining oral health at home.',
+    q: 'How do I book an appointment at Big Smile Dental Care?',
+    a: 'You can book an appointment at Big Smile Dental Care online through our website or by calling us directly at +91 6364562123 or 080 41683510. Our clinic is open Monday to Saturday from 9:00 AM to 6:00 PM. Same-day appointments are available subject to slot availability.',
   }
 ];
 
@@ -83,20 +83,20 @@ const rightFaqs=[
     a: 'to be updated',
   },
   {
-    q: 'What is the 2-2-2 rule in dentistry?',
-    a: 'The 2-2-2 rule means brushing your teeth twice a day for 2 minutes and visiting the dentist twice a year. Following this rule helps maintain strong teeth and healthy gums.',
+    q: 'What sterilization and safety measures do you follow?',
+    a: 'We follow a strict 5-phase sterilization protocol at Big Smile Dental Care — chemical disinfectant wash, ultrasonic debris removal, sterilization pouch packing, internationally certified B-class autoclave sterilization, and UV chamber storage until use. All our procedures fully comply with CDC international safety and hygiene standards.',
   },
   {
     q: 'Is tooth extraction painful?',
-    a: 'No, tooth extraction is not painful as it is performed under local anesthesia. You may feel slight pressure during the procedure, and any post-treatment discomfort can be managed with medication and proper care.',
+    a: 'No. At Big Smile Dental Care, tooth extraction is not painful as it is performed under local anesthesia.  Most of our patients experience little to no pain during the procedure. Post-procedure discomfort, if any, is minimal and manageable with standard medication.',
   },
-    {
+    { 
     q: 'How often should I get my teeth cleaned?',
-    a: 'Professional teeth cleaning is recommended every 6 months, but frequency may vary based on your oral health. Regular cleaning removes plaque and tartar, helping prevent gum disease and bad breath.',
+    a: 'Professional teeth cleaning every 6 months is the standard clinical recommendation. At Big Smile Dental Care, our dentists perform thorough cleaning to remove plaque, tartar, and surface stains that regular brushing cannot eliminate. Patients with gum disease or a history of heavy tartar buildup may be advised to come in every 3 to 4 months.',
   },
   {
     q: 'Is teeth whitening safe?',
-    a: 'Yes, professional teeth whitening is safe and effective when performed by a qualified dentist. It helps remove stains and improve your smile without damaging tooth enamel when done correctly.',
+    a: 'Yes — professional teeth whitening at Big Smile Dental Care is completely safe when performed by our qualified dentists using clinically approved whitening agents. Unlike over-the-counter products, our in-clinic treatments are calibrated to your enamel sensitivity, delivering effective results without damaging tooth structure or causing long-term sensitivity.',
   },
 
 ];

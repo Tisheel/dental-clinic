@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LayoutDashboard, CalendarDays, Stethoscope, FileText, Bell, BookOpen, BarChart3, LogOut, User, Menu, X } from 'lucide-react';
+import { LayoutDashboard, CalendarDays, Stethoscope, FileText, Settings, BookOpen, BarChart3, LogOut, User, Menu, X, Megaphone } from 'lucide-react';
 
 const navItems = [
   { path: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
   { path: '/admin/appointments', label: 'Appointments', icon: CalendarDays },
-  { path: '/admin/services', label: 'Services', icon: Stethoscope },
   { path: '/admin/invoices', label: 'Invoices', icon: FileText },
-  { path: '/admin/analytics', label: 'Analytics', icon: BarChart3 },
+  { path: '/admin/campaigns', label: 'Campaigns', icon: Megaphone },
   { path: '/admin/blog', label: 'Blog', icon: BookOpen },
-  { path: '/admin/settings', label: 'Notifications', icon: Bell },
+  { path: '/admin/analytics', label: 'Analytics', icon: BarChart3 },
+  { path: '/admin/services', label: 'Services', icon: Stethoscope },
+  { path: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 
 export default function AdminLayout({ children }) {
@@ -86,18 +87,18 @@ export default function AdminLayout({ children }) {
         <div className="fixed inset-0 bg-black/30 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />
       )}
 
-      {/* Sidebar - desktop: static, mobile: slide-over */}
+      {/* Sidebar - fixed on all screen sizes */}
       <aside className={`
-        fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 flex flex-col shadow-sm
+        fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 flex flex-col shadow-sm overflow-y-auto
         transform transition-transform duration-200 ease-in-out
-        lg:relative lg:translate-x-0
+        lg:translate-x-0
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         {sidebar}
       </aside>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0">
+      {/* Main Content - offset by sidebar width on desktop */}
+      <div className="flex-1 flex flex-col min-w-0 lg:ml-64">
         {/* Mobile top bar */}
         <div className="lg:hidden flex items-center gap-3 px-4 py-3 bg-white border-b border-gray-200">
           <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-lg hover:bg-gray-100 text-gray-600">

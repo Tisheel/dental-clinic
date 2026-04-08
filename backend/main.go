@@ -35,6 +35,7 @@ func main() {
 	invoiceStore := store.NewInvoiceStore(db)
 	notifConfigStore := store.NewNotificationConfigStore(db)
 	blogStore := store.NewBlogStore(db)
+	campaignStore := store.NewCampaignStore(db)
 
 	// Auth
 	jwtMgr := auth.NewJWTManager(cfg.JWTSecret, cfg.JWTExpiryHours)
@@ -46,6 +47,7 @@ func main() {
 	emailSvc := service.NewEmailService(notifConfigStore)
 	whatsappSvc := service.NewWhatsAppService(notifConfigStore)
 	notifSvc := service.NewNotificationService(emailSvc, whatsappSvc, invoiceSvc, cfg.FrontendURL)
+	campaignSvc := service.NewCampaignService(campaignStore)
 
 	// Seed notification config from env if not already in DB
 	seedNotificationConfig(notifConfigStore, cfg)
@@ -57,6 +59,7 @@ func main() {
 	invoiceH := handler.NewInvoiceHandler(invoiceSvc)
 	notifH := handler.NewNotificationHandler(notifConfigStore)
 	blogH := handler.NewBlogHandler(blogStore)
+	campaignH := handler.NewCampaignHandler(campaignSvc)
 	seoH := handler.NewSEOHandler(blogStore, cfg.FrontendURL)
 	analyticsH := handler.NewAnalyticsHandler(db)
 
@@ -127,6 +130,17 @@ func main() {
 			r.Post("/blog", blogH.Create)
 			r.Put("/blog/{id}", blogH.Update)
 			r.Delete("/blog/{id}", blogH.Delete)
+
+			r.Get("/campaigns/preview-recipients", campaignH.PreviewRecipientsFromFilters)
+			r.Get("/campaigns", campaignH.List)
+			r.Post("/campaigns", campaignH.Create)
+			r.Get("/campaigns/{id}", campaignH.Get)
+			r.Put("/campaigns/{id}", campaignH.Update)
+			r.Delete("/campaigns/{id}", campaignH.Delete)
+			r.Post("/campaigns/{id}/schedule", campaignH.Schedule)
+			r.Get("/campaigns/{id}/preview-recipients", campaignH.PreviewRecipients)
+			r.Post("/campaigns/{id}/recipients", campaignH.AddRecipient)
+			r.Delete("/campaigns/{id}/recipients/{rid}", campaignH.DeleteRecipient)
 		})
 	})
 

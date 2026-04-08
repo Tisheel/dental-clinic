@@ -2,8 +2,7 @@ version: "3.8"
 
 services:
   backend:
-    build: ./backend
-    container_name: backend
+    image: tisheel/backend:latest
     restart: always
     depends_on:
       - mysql
@@ -21,9 +20,19 @@ services:
       - FRONTEND_URL=http://localhost:80
 
   frontend:
-    build: ./frontend
-    container_name: frontend
+    image: tisheel/frontend:latest
     restart: always
+
+  cron:
+    image: tisheel/cron:latest
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASSWORD=secret
+      - DB_NAME=mydb
 
   nginx:
     image: nginx:alpine
@@ -39,7 +48,6 @@ services:
 
   mysql:
     image: mysql:8
-    container_name: mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: secret

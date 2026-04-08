@@ -54,32 +54,54 @@ const testimonials = [
   },
 ];
 
-const faqs = [
+const leftFaqs = [
   {
-    q: 'How do I book an appointment?',
-    a: 'You can book an appointment through our website by clicking the "Book Appointment" button, or call us directly at +91 6364562123 or 080 41683510.',
+    q: 'How often should I visit the dentist?',
+    a: 'Dentists recommend a professional dental check-up and cleaning every 6 months for most patients. If you have specific conditions like gum disease or a history of cavities, more frequent visits may be advised. Regular check-ups at Big Smile Dental Care help detect issues early and prevent costly treatments.',
   },
   {
-    q: 'What safety and sterilization measures do you follow?',
-    a: 'We follow a strict 5-phase sterilization protocol that includes chemical disinfectant washing, ultrasonic debris removal, drying and pouch packing, sterilization in an internationally certified B-class autoclave, and UV chamber storage. All procedures meet CDC guidelines.',
+    q: 'What dental services does Big Smile Dental Care in Banashankari offer?',
+    a: 'We offer a full range of dental services including teeth cleaning, root canal treatment, dental implants, teeth whitening, tooth extraction, cosmetic dentistry, dental braces, clear aligners, and dental fillings. We are located at SV Plaza, 80 Feet Main Road, Srinivasnagar.',
   },
   {
-    q: 'Do you offer cosmetic dentistry services?',
-    a: 'Yes, we provide a full range of cosmetic dentistry services including teeth whitening, veneers, smile makeovers, and more.',
+    q: 'Are braces or clear aligners better for teeth straightening?',
+    a: 'The right choice depends on your specific dental condition. Traditional braces are more effective for complex misalignment and bite correction, while clear aligners are a discreet and comfortable option for mild to moderate cases. Our orthodontist at Big Smile Dental Care will assess your teeth and recommend the most clinically appropriate treatment during your consultation.',
   },
   {
-    q: 'What are your working hours?',
-    a: 'We are open Monday to Saturday, 9:00 AM to 6:00 PM. We are closed on Sundays.',
+    q: 'When should I take my child to the dentist for the first time?',
+    a: 'It is recommended to take your child to the dentist by their first birthday or when the first tooth appears. Early dental visits help prevent cavities and establish healthy oral care habits from a young age.',
   },
   {
-    q: 'Is the clinic easily accessible in Bangalore?',
-    a: 'Yes, our clinic is conveniently located in Bangalore with easy access via public transport and ample parking nearby.',
-  },
-  {
-    q: 'Do you accept dental insurance?',
-    a: 'Please contact our clinic directly to inquire about insurance partnerships and payment options.',
-  },
+    q: 'How do I book an appointment at Big Smile Dental Care?',
+    a: 'You can book an appointment at Big Smile Dental Care online through our website or by calling us directly at +91 6364562123 or 080 41683510. Our clinic is open Monday to Saturday from 9:00 AM to 6:00 PM. Same-day appointments are available subject to slot availability.',
+  }
 ];
+
+const rightFaqs=[
+     {
+    q: 'How can i reschedule or cancel my appointment',
+    a: 'to be updated',
+  },
+  {
+    q: 'What sterilization and safety measures do you follow?',
+    a: 'We follow a strict 5-phase sterilization protocol at Big Smile Dental Care — chemical disinfectant wash, ultrasonic debris removal, sterilization pouch packing, internationally certified B-class autoclave sterilization, and UV chamber storage until use. All our procedures fully comply with CDC international safety and hygiene standards.',
+  },
+  {
+    q: 'Is tooth extraction painful?',
+    a: 'No. At Big Smile Dental Care, tooth extraction is not painful as it is performed under local anesthesia.  Most of our patients experience little to no pain during the procedure. Post-procedure discomfort, if any, is minimal and manageable with standard medication.',
+  },
+    { 
+    q: 'How often should I get my teeth cleaned?',
+    a: 'Professional teeth cleaning every 6 months is the standard clinical recommendation. At Big Smile Dental Care, our dentists perform thorough cleaning to remove plaque, tartar, and surface stains that regular brushing cannot eliminate. Patients with gum disease or a history of heavy tartar buildup may be advised to come in every 3 to 4 months.',
+  },
+  {
+    q: 'Is teeth whitening safe?',
+    a: 'Yes — professional teeth whitening at Big Smile Dental Care is completely safe when performed by our qualified dentists using clinically approved whitening agents. Unlike over-the-counter products, our in-clinic treatments are calibrated to your enamel sensitivity, delivering effective results without damaging tooth structure or causing long-term sensitivity.',
+  },
+
+];
+
+const allFaqs=[...leftFaqs,...rightFaqs];
 
 const sterilizationSteps = [
   { step: 'Phase 1', title: 'Chemical Wash', desc: 'Instruments cleaned with chemical disinfectant solution' },
@@ -99,6 +121,24 @@ export default function LandingPage() {
 
   return (
     <div>
+      {/* FAQ SCHEMA MARKUP */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": allFaqs.map(faq => ({
+              "@type": "Question",
+              "name": faq.q,
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": faq.a
+              }
+            }))
+          })
+        }}
+      />
       {/* Hero Section */}
       <section className="relative bg-gray-900 text-white overflow-hidden">
         <img
@@ -296,34 +336,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section id="faq" className="py-12 sm:py-20 bg-gray-50 scroll-mt-20">
-        <div className="max-w-3xl mx-auto px-4">
-          <div className="text-center mb-10 sm:mb-14">
-            <p className="text-teal-700 font-semibold text-sm mb-2 uppercase tracking-wide">Have Questions?</p>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">Frequently Asked Questions</h2>
-          </div>
-          <div className="space-y-3">
-            {faqs.map((faq, i) => (
-              <div key={i} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-                <button
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full flex items-center justify-between px-5 py-4 text-left"
-                >
-                  <span className="font-medium text-gray-900 text-sm sm:text-base pr-4">{faq.q}</span>
-                  {openFaq === i ? <ChevronUp size={18} className="text-gray-400 shrink-0" /> : <ChevronDown size={18} className="text-gray-400 shrink-0" />}
-                </button>
-                {openFaq === i && (
-                  <div className="px-5 pb-4">
-                    <p className="text-gray-600 text-sm leading-relaxed">{faq.a}</p>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section className="py-12 sm:py-16 bg-teal-700 text-white">
         <div className="max-w-3xl mx-auto px-4 text-center">
@@ -337,6 +349,76 @@ export default function LandingPage() {
               <Phone size={18} /> +91 6364562123
             </a>
           </div>
+        </div>
+      </section>      
+
+      {/* FAQ Section */}
+      <section id="faq" className="py-12 sm:py-20 bg-gray-50 scroll-mt-20">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-10 sm:mb-14">
+            <p className="text-teal-700 font-semibold text-sm mb-2 uppercase tracking-wide">Have Questions?</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">Frequently Asked Questions</h2>
+          </div>
+           <div className="flex flex-col md:flex-row gap-4">
+              {/* Left Column */}
+              <div className="flex-1 space-y-4">
+                {leftFaqs.map((faq, i) => {
+                  return (
+                    <div key={faq.q} className="bg-white rounded-xl border border-gray-200 overflow-hidden mx-3">
+                      <button
+                        onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                        className="w-full flex items-center justify-between px-5 py-4 text-left"
+                      >
+                        <span className="font-medium text-gray-900 text-sm sm:text-base pr-4">
+                          {faq.q}
+                        </span>
+                        {openFaq === i ? (
+                          <ChevronUp size={18} className="text-gray-400 shrink-0" />
+                        ) : (
+                          <ChevronDown size={18} className="text-gray-400 shrink-0" />
+                        )}
+                      </button>
+
+                      {openFaq === i && (
+                        <div className="px-5 pb-4">
+                          <p className="text-gray-600 text-sm leading-relaxed">{faq.a}</p>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Right Column */}
+              <div className="flex-1 space-y-4">
+                {rightFaqs.map((faq, i) => {
+                  const index = i + leftFaqs.length; // 5–9 (IMPORTANT)
+                  return (
+                    <div key={faq.q} className="bg-white rounded-xl border border-gray-200 overflow-hidden mx-3">
+                      <button
+                        onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                        className="w-full flex items-center justify-between px-5 py-4 text-left"
+                      >
+                        <span className="font-medium text-gray-900 text-sm sm:text-base pr-4">
+                          {faq.q}
+                        </span>
+                        {openFaq === index ? (
+                          <ChevronUp size={18} className="text-gray-400 shrink-0" />
+                        ) : (
+                          <ChevronDown size={18} className="text-gray-400 shrink-0" />
+                        )}
+                      </button>
+
+                      {openFaq === index && (
+                        <div className="px-5 pb-4">
+                          <p className="text-gray-600 text-sm leading-relaxed">{faq.a}</p>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>   
         </div>
       </section>
 

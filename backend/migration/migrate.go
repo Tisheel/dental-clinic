@@ -20,6 +20,8 @@ func Run(db *gorm.DB, adminUsername, adminPassword string) {
 		&model.Invoice{},
 		&model.NotificationConfig{},
 		&model.BlogPost{},
+		&model.Campaign{},
+		&model.CampaignRecipient{},
 	)
 	if err != nil {
 		log.Fatal("migration failed:", err)
